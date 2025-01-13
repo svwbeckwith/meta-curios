@@ -14,7 +14,7 @@ Generally, the recipes in this layer can also be used for other yocto projects, 
   git clone https://github.com/liuweiseu/meta-curios.git
   ```
 
-3. create the q7s-build dir
+3. create the `q7s-build` dir
   ```
   . setup-environment q7s-build
   ```
@@ -37,7 +37,7 @@ Generally, the recipes in this layer can also be used for other yocto projects, 
   IMAGE_INSTALL_append = "cfitsio"
   ```
   **Note: You need to modify ${ABSOLUTE_PATH_TO_DOWNLOADS} to the absolute path of the xsc-downloads folder on your machine.**  
-  Here is an example of the `conf/local/conf` on my machine:
+  Here is an example of the `conf/local.conf` on my machine:
   ```
   MACHINE ?= "q7s-revb"
   ...
