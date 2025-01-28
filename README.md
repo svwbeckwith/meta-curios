@@ -4,7 +4,7 @@ Generally, the recipes in this layer can also be used for other yocto projects, 
 ## Generate SDK
 1. clone the Xiphos's yocto repo
   ```
-  git clone --depth 1 -b xiphos-v2018.2 git@trac.xiphos.com:xiphos/yocto.git yocto-xiphos
+  git clone --depth 1 -b xiphos-v2021.2 git@trac.xiphos.com:xiphos/yocto.git yocto-xiphos
   ```
   **Note: You have to add your ssh public to the Xiphos git system, or you won't be able to clone the repo in this way.** 
 
@@ -25,15 +25,13 @@ Generally, the recipes in this layer can also be used for other yocto projects, 
   cd q7s-build
   vim conf/local.conf
 
-  # (1) modify `MACHINE`
-  MACHINE ?= "q7s-revb"
-  # (2) add `PREMIRRORS`
+  # (1) add `PREMIRRORS`
   PREMIRRORS = " \
     git://.*/.* file://${ABSOLUTE_PATH_TO_DOWNLOADS} \ 
     gitsm://.*/.* file://${ABSOLUTE_PATH_TO_DOWNLOADS} \ 
     http://.*/.* file://${ABSOLUTE_PATH_TO_DOWNLOADS} \ 
     "
-  # (3) add the following line
+  # (1) add the following line
   IMAGE_INSTALL_append = "cfitsio"
   ```
   **Note: You need to modify ${ABSOLUTE_PATH_TO_DOWNLOADS} to the absolute path of the xsc-downloads folder on your machine.**  
