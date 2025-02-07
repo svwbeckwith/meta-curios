@@ -46,7 +46,14 @@ Generally, the recipes in this layer can also be used for other yocto projects, 
     "
   IMAGE_INSTALL_append = "cfitsio"
   ```
-
+  **Note:**   
+  (1) To install the SDK on a ARM64 platform, you need to add `SDKMACHINE = "aarch64"` to the `conf/local`.conf  
+  (2) There is a bug in `yocto-xiphos-v2021.1`(**v3.3.0 or earlier**), which pops up error messages during SDK generation. To fix the error, you need to add the following lines to the `conf/local/conf`:
+  ```
+      TOOLCHAIN_TARGET_TASK_remove = "xsc-rmap-dev"
+      TOOLCHAIN_TARGET_TASK_remove += "xsc-rmap-staticdev"
+      TOOLCHAIN_TARGET_TASK_remove += "libhrestime-staticdev"
+  ``` 
 5. add `meta-curios` layer to the project
   ```
   bitbake-layers add-layer ../meta-curios
