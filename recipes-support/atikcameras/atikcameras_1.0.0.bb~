@@ -1,0 +1,54 @@
+DESCRIPTION = "Flight Software for CuRIOS-ED"
+HOMEPAGE = ""
+LICENSE = "CLOSED"
+
+DEPENDS = "zlib bzip2 curl openssl libusb cfitsio"
+
+# Overrides
+SOLIBS = ".so"
+FILES_SOLIBSDEV = ""
+
+inherit autotools-brokensep pkgconfig
+
+#PR = "r1"
+LIC_FILES_CHKSUM = ""
+#LIC_FILES_CHKSUM = "file://licenses/License.txt;md5=77856e8a5492e2119200b3401a8e7966"
+
+SRC_URI = "file:///home/curios/curios_fsw/*"
+
+S = "${WORKDIR}/home/curios/curios_fsw"
+
+inherit cmake
+
+do_install:append () {
+    install -d ${D}${bindir}
+    install -d ${D}${libdir}
+    install -d ${D}/opt
+    install -d ${D}/data
+
+#    cp ${WORKDIR}/home/curios/curios_fsw/build/Imaging_Control ${D}${bindir}
+#    cp ${WORKDIR}/home/curios/curios_fsw/build/Pointing_Control ${D}${bindir}
+#    cp ${WORKDIR}/home/curios/curios_fsw/build/Payload_Control ${D}${bindir}
+#    cp ${WORKDIR}/home/curios/curios_fsw/build/DiskMemUse ${D}${bindir}
+#    cp ${WORKDIR}/home/curios/curios_fsw/lib/libatikcameras.so ${D}${libdir}
+#    cp ${WORKDIR}/home/curios/curios_fsw/lib/libflightapi.a ${D}${libdir}
+
+#    oe_soinstall ${WORKDIR}/home/curios/curios_fsw/lib/libatikcameras.so ${D}${libdir}
+#    oe_soinstall ${WORKDIR}/home/curios/curios_fsw/lib/libflightapi.a ${D}${libdir}
+
+    install -m 0755 ${WORKDIR}/home/curios/curios_fsw/lib/libatikcameras.so ${D}${libdir}
+    install -m 0755 ${WORKDIR}/home/curios/curios_fsw/lib/libflightapi.a ${D}${libdir}
+}
+
+FILES:${PN} += " \
+  /opt \
+  /data \
+  ${bindir}/* \
+  ${libdir}/* \
+"
+
+#RDEPENDS:${PN} += " \
+#  ${libdir}/libatikcameras.so \
+#"
+
+
