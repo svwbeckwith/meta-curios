@@ -8,7 +8,7 @@ DEPENDS = "zlib bzip2 curl openssl libusb cfitsio monit"
 SOLIBS = ".so"
 FILES_SOLIBSDEV = ""
 
-inherit autotools-brokensep pkgconfig
+inherit autotools-brokensep pkgconfig systemd
 
 #PR = "r1"
 LIC_FILES_CHKSUM = ""
@@ -17,6 +17,7 @@ LIC_FILES_CHKSUM = ""
 SRC_URI = "file:///home/curios/curios_fsw/*"
 
 S = "${WORKDIR}/home/curios/curios_fsw"
+SYSTEMD_SERVICE_${PN} = "curiosed_control.service"
 
 inherit cmake
 
@@ -42,6 +43,11 @@ do_install:append () {
 
     # Install StarSpec flightsim files
     cp -r ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/flightsim/* ${D}${sysconfdir}/flightsim/
+
+    # Install Payload_Control service
+    # Move over systemd files
+    install -d ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/systemd/system/curiosed_control.service ${D}${systemd_unitdir}/system
     
 }
 
@@ -59,7 +65,10 @@ FILES:${PN} += " \
   ${sysconfdir}/systemd \
   ${sysconfdir}/systemd/network \
   ${sysconfdir}/systemd/network/* \
+  ${systemd_unitdir}/system/* \
 "
+
+REQUIRED_DISTRO_FEATURES= "systemd"
 
 #
 #  /etc/dropbear/* \
