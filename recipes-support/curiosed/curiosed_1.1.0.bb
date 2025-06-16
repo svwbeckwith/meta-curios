@@ -17,11 +17,14 @@ LIC_FILES_CHKSUM = ""
 SRC_URI = "file:///home/curios/curios_fsw/*"
 
 S = "${WORKDIR}/home/curios/curios_fsw"
-SYSTEMD_SERVICE_${PN} = "curiosed_control.service"
+
+SYSTEM_AUTO_ENABLE = "enable"
+SYSTEM_SERVICE:${PN} = "curiosed_control.service"
 
 inherit cmake
 
 do_install:append () {
+    # Make directories
     install -d ${D}${bindir}
     install -d ${D}${libdir}
     install -d ${D}/opt
@@ -46,8 +49,8 @@ do_install:append () {
 
     # Install Payload_Control service
     # Move over systemd files
-    install -d ${D}${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/systemd/system/curiosed_control.service ${D}${systemd_unitdir}/system
+    install -d ${D}${sysconfdir}/systemd/system
+    install -m 0644 ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/systemd/system/curiosed_control.service ${D}${sysconfdir}/systemd/system/
     
 }
 
@@ -65,7 +68,7 @@ FILES:${PN} += " \
   ${sysconfdir}/systemd \
   ${sysconfdir}/systemd/network \
   ${sysconfdir}/systemd/network/* \
-  ${systemd_unitdir}/system/* \
+  ${sysconfdir}/systemd/system/* \
 "
 
 REQUIRED_DISTRO_FEATURES= "systemd"

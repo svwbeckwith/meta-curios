@@ -19,6 +19,8 @@ S = "${WORKDIR}/git"
 
 EXTRA_OECONF += "--without-fortran"
 
+EXTRA_OECMAKE += "-DUTILS=ON"
+
 inherit cmake
 
 do_install_append () {

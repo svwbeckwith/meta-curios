@@ -15,7 +15,7 @@ SRCREV = "093dd218dd2cd194e7208a36e17e5da16381863e"
 
 S = "${WORKDIR}/git"
 
-do_install_append () {
+do_install:append () {
 	chown -R root:root ${D}${prefix}
 }
 
