@@ -32,7 +32,6 @@ do_install:append () {
     install -d ${D}/home/root
     install -d ${D}${sysconfdir}/systemd
     install -d ${D}${sysconfdir}/systemd/network
-    install -d ${D}${sysconfdir}/flightsim
 #    install -d ${D}${sysconfdir}/dropbear
 
     install -m 0755 ${WORKDIR}/home/curios/curios_fsw/lib/libatikcameras.so ${D}${libdir}
@@ -45,7 +44,7 @@ do_install:append () {
     install -m 0644 ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/systemd/network/05-eth0.network ${D}${sysconfdir}/systemd/network/
 
     # Install StarSpec flightsim files
-    cp -r ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/flightsim/* ${D}${sysconfdir}/flightsim/
+    cp -r ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/inspire_sat/* ${D}${sysconfdir}/inspire_sat/
 
     # Install Payload_Control service
     # Move over systemd files
