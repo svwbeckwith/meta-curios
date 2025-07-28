@@ -32,6 +32,7 @@ do_install:append () {
     install -d ${D}/home/root
     install -d ${D}${sysconfdir}/systemd
     install -d ${D}${sysconfdir}/systemd/network
+    install -d ${D}${sysconfdir}/inspire_sat
 #    install -d ${D}${sysconfdir}/dropbear
 
     install -m 0755 ${WORKDIR}/home/curios/curios_fsw/lib/libatikcameras.so ${D}${libdir}
