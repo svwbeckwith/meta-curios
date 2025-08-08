@@ -4,6 +4,8 @@ LICENSE = "CLOSED"
 
 DEPENDS = "zlib bzip2 curl openssl libusb cfitsio monit"
 
+RDEPENDS:${PN} += "bash"
+
 # Overrides
 SOLIBS = ".so"
 FILES_SOLIBSDEV = ""
@@ -14,17 +16,23 @@ inherit autotools-brokensep pkgconfig systemd
 LIC_FILES_CHKSUM = ""
 #LIC_FILES_CHKSUM = "file://licenses/License.txt;md5=77856e8a5492e2119200b3401a8e7966"
 
-SRC_URI = "file:///home/curios/curios_fsw/*"
+# get source code from  GitHub
+SRC_URI = "git://git@github.com/svwbeckwith/CuRIOS.git;protocol=ssh;branch=main"
 
-S = "${WORKDIR}/home/curios/curios_fsw"
+# commit(optional)
+SRCREV = "6e0c4c2294289fab224a2ebaa4dad026e122eb72"
+
+# Yocto will clone the source code to ${WORKDIR}/git
+S = "${WORKDIR}/git"
 
 SYSTEM_AUTO_ENABLE = "enable"
 SYSTEM_SERVICE:${PN} = "curiosed_control.service"
 
 inherit cmake
 
-do_install:append () {
-    # Make directories
+# install
+do_install:append() {
+    # create dirs
     install -d ${D}${bindir}
     install -d ${D}${libdir}
     install -d ${D}/opt
@@ -33,25 +41,22 @@ do_install:append () {
     install -d ${D}${sysconfdir}/systemd
     install -d ${D}${sysconfdir}/systemd/network
     install -d ${D}${sysconfdir}/inspire_sat
-#    install -d ${D}${sysconfdir}/dropbear
+    install -d ${D}${sysconfdir}/flightsim
 
-    install -m 0755 ${WORKDIR}/home/curios/curios_fsw/lib/libatikcameras.so ${D}${libdir}
-    install -m 0755 ${WORKDIR}/home/curios/curios_fsw/lib/libflightapi.a ${D}${libdir}
+    # copy lib files
+    install -m 0755 ${S}/lib/libatikcameras.so ${D}${libdir}
+    install -m 0755 ${S}/lib/libflightapi.a ${D}${libdir}
 
-    # Move over rootfs files
-    install -m 0755 ${WORKDIR}/home/curios/curios_fsw/files/q7s/home/root/.profile ${D}/home/root/
-#   install -m 0600 ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/dropbear/dropbear_rsa_host_key ${D}${sysconfdir}/dropbear/
-#    cp ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/systemd/network/05-eth0.network ${D}${sysconfdir}/systemd/network/
-    install -m 0644 ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/systemd/network/05-eth0.network ${D}${sysconfdir}/systemd/network/
+    # rootfs files
+    install -m 0755 ${S}/files/q7s/home/root/.profile ${D}/home/root/
+    install -m 0644 ${S}/files/q7s/etc/systemd/network/05-eth0.network ${D}${sysconfdir}/systemd/network/
 
-    # Install StarSpec flightsim files
-    cp -r ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/inspire_sat/* ${D}${sysconfdir}/inspire_sat/
+    # flightsim configs
+    cp -r ${S}/files/q7s/etc/flightsim/* ${D}${sysconfdir}/flightsim/
 
-    # Install Payload_Control service
-    # Move over systemd files
+    # systemd service
     install -d ${D}${sysconfdir}/systemd/system
-    install -m 0644 ${WORKDIR}/home/curios/curios_fsw/files/q7s/etc/systemd/system/curiosed_control.service ${D}${sysconfdir}/systemd/system/
-    
+    install -m 0644 ${S}/files/q7s/etc/systemd/system/curiosed_control.service ${D}${sysconfdir}/systemd/system/
 }
 
 FILES:${PN} += " \
