@@ -35,7 +35,6 @@ do_install:append() {
     # create dirs
     install -d ${D}${bindir}
     install -d ${D}${libdir}
-    install -d ${D}/opt
     install -d ${D}/data
     install -d ${D}/home/root
     install -d ${D}${sysconfdir}/systemd
