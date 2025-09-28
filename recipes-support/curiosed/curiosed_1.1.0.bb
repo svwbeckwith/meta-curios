@@ -60,7 +60,6 @@ do_install:append() {
 }
 
 FILES:${PN} += " \
-  /opt \
   /data \
   ${bindir}/* \
   ${libdir}/* \
